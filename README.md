@@ -1,4 +1,4 @@
-# project-booksManagementGroup29
+# project-booksManagement
 User Model
 { 
   title: {string, mandatory, enum[Mr, Mrs, Miss]},
