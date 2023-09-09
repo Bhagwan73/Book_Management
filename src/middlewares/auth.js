@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const bookModel = require("../models/bookModel");
 const { isValidObjectId } = require("../validator/validator");
+require("dotenv").config({path:".env"})
 
 //                    <<-------->>-AUTHENTICATION-<<---------->>
 
@@ -10,7 +11,7 @@ exports.authenticate = function (req, res, next) {
     let token = req.headers["x-api-key"] || req.headers["X-Api-Key"];
     if (!token) return res.status(400).send({ status: false, message: "token must be present" });
     //VERIFY_THE_TOKEN
-    jwt.verify( token,"Project_Book_Management",{ ignoreExpiration: true },
+    jwt.verify( token,process.env.JWT_SECRET,{ ignoreExpiration: true },
     //WRITE_FUNCTION_FOR_IF_GET_ERROR_IN_VERIFYING_PROCESS_SO_PUT_ERROR_IN_ERR_PARAMETER_AND_IF_TOKEN_CREATED_SUCESSFULLY_SO_PUT_VALUE_IN_DECODEDTOKEN_PARAMETER
       function (err, decodedToken) {
         if (err) {

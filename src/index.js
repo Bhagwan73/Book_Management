@@ -1,21 +1,16 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const route = require("./routes/route");
-const app = express();
-const mongoDB= "mongodb+srv://PriyankaChavan:priyanka@cluster0.iocf9uz.mongodb.net/group29Database"
+const express=require("express")
+const route=require("./routes/route")
+const mongoose=require("mongoose")
+const app=express()
+app.use(express.json())
+require("dotenv").config({path:".env"})
 
-mongoose.connect(  mongoDB,{ useNewUrlParser: true },(err)=>{
-  if(err){
-    console.log("mongoDB is not connected",err)
-  }else{
-    console.log("mongoDB is connected")
-  }
+mongoose.connect(process.env.MONGO_URL)
+.then(()=>console.log("MongoDB is connected .."))
+.catch(err=>console.log(err))
+
+app.use("/",route)
+const PORT=process.env.PORT || 3000 
+app.listen(PORT,()=>{
+    console.log(`express running on port ${PORT}`)
 })
-
-app.use(express.json());
-app.use("/", route);
-
-const PORT=process.env.PORT
-app.listen(PORT || 3000, function () {
-  console.log("express running on PORT " + (PORT || 3000));
-});

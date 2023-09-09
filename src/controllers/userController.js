@@ -1,7 +1,7 @@
 const userModel = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const {isValidString,isvalidMobile,isValidPincode,isValidCity,isValidEmail,isValidPass} = require("../validator/validator");
-
+require("dotenv").config({path:".env"})
 
 
 //                    <<-------->>-CREATE_USER-<<---------->>
@@ -88,7 +88,7 @@ exports.userLogin = async function (req, res) {
     //CREATE TOKEN 
      const payload={userId: getUsersData._id.toString()}    //PAYLOAD
      const setExpiry={ expiresIn: 30*60 }                   //SET_EXPIRY
-     const secreteKey="Project_Book_Management"             //PRIVET_KEY
+     const secreteKey=process.env.JWT_SECRET             //PRIVET_KEY
     let token = jwt.sign( payload ,secreteKey,setExpiry)
     //SET HEADER IN RESPONCE
     res.setHeader("x-api-key", token);
